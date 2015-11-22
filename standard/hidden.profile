@@ -1,0 +1,2 @@
+# hidden.profile
+# puppet generated 

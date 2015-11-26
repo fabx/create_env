@@ -1,0 +1,342 @@
+---
+
+create_env_config:
+  'rumba/standard':
+    ce_ensure: present
+    ce_carto: 'rumba'
+    ce_type: 'standard'
+    ce_environment: 'test'
+    ce_appli: 'rumba'
+  'samba/standard':
+    ce_ensure: present
+    ce_carto: 'samba'
+    ce_type: 'standard'
+    ce_environment: 'test'
+    ce_appli: 'samba'
+  'twist/standard':
+    ce_ensure: present
+    ce_carto: 'twist'
+    ce_type: 'standard'
+    ce_environment: 'test'
+    ce_appli: 'twist'
+  # 'twist/oracle11':
+  #   ce_ensure: present
+  #   ce_carto: 'twist'
+  #   ce_type: 'oracle11'
+  #   ce_environment: 'test'
+  #   ce_appli: 'twist'
+  #   ce_version: '11204'
+
+create_env_standard_volumes:
+  # "%{ce_carto}lv00":
+  #   ce_ensure: present
+  #   ce_vg: 'applvg1'
+  #   ce_initial_size: '4GB'
+  #   ce_mountpath: "/home/%{ce_carto}/appli"
+
+create_env_oracle11_volume_groups:
+  # "svgvg":
+  #   ce_ensure: present
+  #   ce_physical_volumes: '/dev/sdca'
+  #   ce_create_only: true
+
+create_env_oracle11_volumes:
+  # "%{ce_carto}rmanlv":
+  #   ce_ensure: present
+    # should be ce_vg: 'svgvg'
+    # ce_vg: 'systemVG'
+  #   ce_vg: 'svgvg'
+  #   ce_initial_size: '4GB'
+    # TODO /home/rman/uppercase(carto)
+  #   ce_mountpath: "/home/rman/%{ce_carto}"
+
+create_env_standard_folders:
+  "/home/%{ce_carto}":
+    ce_ensure: 'directory'
+    ce_owner: "%{ce_carto}mgr"
+    ce_mode: '0755'
+  "/home/%{ce_carto}/app":
+    ce_ensure: 'directory'
+    ce_owner: "%{ce_carto}mgr"
+    ce_mode: '0755'
+  "/home/%{ce_carto}/app/connect":
+    ce_ensure: 'directory'
+    ce_owner: "%{ce_carto}mgr"
+    ce_mode: '0775'
+  "/home/%{ce_carto}/app/data":
+    ce_ensure: 'directory'
+    ce_owner: "%{ce_carto}mgr"
+    ce_mode: '0775'
+  "/home/%{ce_carto}/app/var":
+    ce_ensure: 'directory'
+    ce_owner: "%{ce_carto}mgr"
+    ce_mode: '0775'
+  "/home/%{ce_carto}/app/var/log":
+    ce_ensure: 'directory'
+    ce_owner: "%{ce_carto}mgr"
+    ce_mode: '0775'
+  "/home/%{ce_carto}/app/tools":
+    ce_ensure: 'directory'
+    ce_owner: "%{ce_carto}mgr"
+    ce_mode: '0775'
+  "/home/%{ce_carto}/app/tools/scripts":
+    ce_ensure: 'directory'
+    ce_owner: "%{ce_carto}mgr"
+    ce_mode: '0775'
+
+
+create_env_oracle11_folders:
+  "/home/%{ce_carto}/app/expl/adest":
+    ce_ensure: 'directory'
+    ce_owner: "dba%{ce_carto}"
+    ce_mode: '0770'
+  "/home/%{ce_carto}/app/expl/arch":
+    ce_ensure: 'directory'
+    ce_owner: "dba%{ce_carto}"
+    ce_mode: '0770'
+  "/home/%{ce_carto}/app/expl/bdump":
+    ce_ensure: 'directory'
+    ce_owner: "dba%{ce_carto}"
+    ce_mode: '0770'
+  "/home/%{ce_carto}/app/expl/cdump":
+    ce_ensure: 'directory'
+    ce_owner: "dba%{ce_carto}"
+    ce_mode: '0770'
+  "/home/%{ce_carto}/app/expl/diag":
+    ce_ensure: 'directory'
+    ce_owner: "dba%{ce_carto}"
+    ce_mode: '0770'
+  "/home/%{ce_carto}/appli/expl/export":
+    ce_ensure: 'directory'
+    ce_owner: "dba%{ce_carto}"
+    ce_mode: '0775'
+  "/home/%{ce_carto}/appli/expl/init":
+    ce_ensure: 'directory'
+    ce_mode: '0775'
+  "/home/%{ce_carto}/appli/expl/sqlaud":
+    ce_ensure: 'directory'
+    ce_mode: '0775'
+  "/home/%{ce_carto}/appli/expl/udump":
+    ce_ensure: 'directory'
+    ce_owner: "dba%{ce_carto}"
+    ce_mode: '0775'
+  "/home/%{ce_carto}/database":
+    ce_ensure: 'directory'
+    ce_mode: '0750'
+  "/home/%{ce_carto}/database/data01":
+    ce_ensure: 'directory'
+    ce_mode: '0750'
+  "/home/%{ce_carto}/database/data02":
+    ce_ensure: 'directory'
+    ce_mode: '0750'
+  "/home/%{ce_carto}/database/data03":
+    ce_ensure: 'directory'
+    ce_mode: '0750'
+  "/home/%{ce_carto}/database/redo01":
+    ce_ensure: 'directory'
+    ce_mode: '0750'
+  "/home/%{ce_carto}/database/redo02":
+    ce_ensure: 'directory'
+    ce_mode: '0750'
+  "/home/%{ce_carto}/database/redo03":
+    ce_ensure: 'directory'
+    ce_mode: '0750'
+
+
+create_env_standard_files:
+  "/home/%{ce_carto}/appli/connexion/.fonction":
+    ce_owner: "%{ce_carto}mgr"
+    ce_mode: '0775'
+    # ce_source: "puppet:///modules/mkenv6/standard/connexion/hidden.fonction"
+    ce_source: "puppet:///repo_svn/standard/connexion/.fonction"
+  "/home/%{ce_carto}/appli/connexion/.profile":
+    ce_owner: "%{ce_carto}mgr"
+    ce_mode: '0775'
+    ce_source: "puppet:///modules/mkenv6/standard/connexion/hidden.profile"
+  "/home/%{ce_carto}/appli/expl/lst/journal":
+    ce_owner: "%{ce_carto}mgr"
+    ce_mode: '0666'
+    ce_source: "puppet:///modules/mkenv6/standard/expl/lst/journal"
+  "/home/%{ce_carto}/appli/ingev/proc/db_backup_ctl":
+    ce_mode: '0644'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/db_backup_ctl"
+  "/home/%{ce_carto}/appli/ingev/proc/db_check_base_all":
+    ce_mode: '0644'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/db_check_base_all"
+  "/home/%{ce_carto}/appli/ingev/proc/db_dbv_jour":
+    ce_mode: '0444'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/db_dbv_jour"
+  "/home/%{ce_carto}/appli/ingev/proc/db_verif_base":
+    ce_mode: '0444'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/db_verif_base"
+  "/home/%{ce_carto}/appli/ingev/proc/db_verif_fich":
+    ce_mode: '0444'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/db_verif_fich"
+  "/home/%{ce_carto}/appli/ingev/proc/.fonction":
+    ce_mode: '0444'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/hidden.fonction"
+  "/home/%{ce_carto}/appli/ingev/proc/httpd_appli.conf":
+    ce_mode: '0644'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/httpd_appli.conf"
+  "/home/%{ce_carto}/appli/ingev/proc/listener":
+    ce_mode: '0644'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/listener"
+  "/home/%{ce_carto}/appli/ingev/proc/.profile":
+    ce_mode: '0444'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/hidden.profile"
+  "/home/%{ce_carto}/appli/ingev/proc/start_base":
+    ce_mode: '0644'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/start_base"
+  "/home/%{ce_carto}/appli/ingev/proc/startbaseoracle":
+    ce_mode: '0444'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/startbaseoracle"
+  "/home/%{ce_carto}/appli/ingev/proc/start_list":
+    ce_mode: '0644'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/start_list"
+  "/home/%{ce_carto}/appli/ingev/proc/stop_base":
+    ce_mode: '0644'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/stop_base"
+  "/home/%{ce_carto}/appli/ingev/proc/stopbaseoracle":
+    ce_mode: '0444'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/stopbaseoracle"
+  "/home/%{ce_carto}/appli/ingev/proc/stop_list":
+    ce_mode: '0644'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/stop_list"
+  "/home/%{ce_carto}/appli/ingev/proc/stop_list":
+    ce_mode: '0644'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/stop_list"
+  # TODO investigate duplicate
+  # "/home/%{ce_carto}/appli/ingev/proc/svg_arch_rman":
+  #   ce_mode: '0644'
+  #   ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/svg_arch_rman"
+  "/home/%{ce_carto}/appli/ingev/proc/svg_rman_full":
+    ce_mode: '0644'
+    ce_source: "puppet:///modules/mkenv6/standard/ingev/proc/svg_rman_full"
+
+
+create_env_oracle11_files:
+  "/home/%{ce_carto}/appli/expl/proc/startbaseoracle":
+    ce_owner: 'root'
+    ce_group: 'sys'
+    ce_mode: '0444'
+    ce_source: "puppet:///modules/mkenv6/oracle/expl/proc/startbaseoracle"
+  "/home/%{ce_carto}/appli/expl/proc/stopbaseoracle":
+    ce_owner: 'root'
+    ce_group: 'sys'
+    ce_mode: '0444'
+    ce_source: "puppet:///modules/mkenv6/oracle/expl/proc/stopbaseoracle"
+
+
+create_env_standard_templates:
+  "/home/%{ce_carto}/appli/connexion/.param":
+    ce_mode: '0775'
+    # TODO resolve user oracle in template
+    ce_content: "mkenv6/standard/connexion/hidden.param.erb"
+  "/home/%{ce_carto}/appli/env.ini":
+    ce_mode: '0775'
+    ce_content: "mkenv6/standard/env.ini.erb"
+  # "/home/%{ce_carto}/appli/expl/proc/purge_%{ce_carto}":
+  "/home/%{ce_carto}/appli/expl/proc/purge_carto":
+    ce_mode: '0755'
+    # TODO investigate purge_carto
+    # ce_content: "mkenv6/standard/expl/proc/purge_%{ce_carto}.erb"
+    ce_content: "mkenv6/standard/expl/proc/purge_carto.erb"
+  "/home/%{ce_carto}/appli/expl/proc/svg_arch_appli":
+    ce_mode: '0755'
+    ce_content: "mkenv6/standard/expl/proc/svg_arch_appli.erb"
+  "/home/%{ce_carto}/appli/expl/proc/svg_incr_appli":
+    ce_mode: '0755'
+    ce_content: "mkenv6/standard/expl/proc/svg_incr_appli.erb"
+  "/home/%{ce_carto}/appli/ingev/proc/.param":
+    ce_owner: 'root'
+    ce_group: 'root'
+    ce_mode: '0644'
+    ce_content: "mkenv6/standard/ingev/proc/hidden.param.erb"
+  # "/home/%{ce_carto}/appli/ingev/proc/purge_%{ce_carto}":
+  "/home/%{ce_carto}/appli/ingev/proc/purge_carto":
+    ce_owner: 'root'
+    ce_group: 'root'
+    ce_mode: '0644'
+    # TODO investigate purge_carto
+    # ce_content: "mkenv6/tandard/ingev/proc/purge_%{ce_carto}.erb"
+    ce_content: "mkenv6/standard/ingev/proc/purge_carto.erb"
+  "/home/%{ce_carto}/appli/ingev/proc/svg_arch_appli":
+    ce_owner: 'root'
+    ce_group: 'root'
+    ce_mode: '0644'
+    ce_content: "mkenv6/standard/ingev/proc/svg_arch_appli.erb"
+  "/home/%{ce_carto}/appli/ingev/proc/svg_incr_appli":
+    ce_owner: 'root'
+    ce_group: 'root'
+    ce_mode: '0644'
+    ce_content: "mkenv6/standard/ingev/proc/svg_incr_appli.erb"
+
+
+create_env_oracle11_templates:
+  "/home/%{ce_carto}/appli/expl/proc/svg_arch_rman":
+    ce_owner: "%{ce_carto}mgr"
+    ce_group: "%{ce_carto}grp"
+    ce_mode: '755'
+    ce_content: "mkenv6/oracle/expl/proc/svg_arch_rman.erb"
+  "/home/%{ce_carto}/appli/ingev/proc/svg_arch_rman":
+    ce_owner: 'root'
+    ce_group: 'root'
+    ce_mode: '755'
+    ce_content: "mkenv6/oracle/ingev/proc/svg_arch_rman.erb"
+
+
+create_env_standard_groups:
+  "%{ce_carto}grp":
+    ce_group: "%{ce_carto}grp"
+
+
+create_env_standard_users:
+  "%{ce_carto}":
+    ce_user: "%{ce_carto}"
+    ce_primary_group: "%{ce_carto}grp"
+    ce_home: "/home/%{ce_carto}"
+  "%{ce_carto}mgr":
+    ce_user: "%{ce_carto}mgr"
+    ce_primary_group: "%{ce_carto}grp"
+    ce_home: "/home/%{ce_carto}mgr"
+
+
+create_env_oracle11_groups:
+  # TODO move to oracle module only here for test purpose
+  'oinstall':
+    ce_group: 'oinstall'
+  # TODO move to oracle module only here for test purpose
+  'dba11g':
+    ce_group: 'dba11g'
+
+
+create_env_oracle11_users:
+  "dba%{ce_carto}":
+    ce_user: "dba%{ce_carto}"
+    ce_primary_group: 'oinstall'
+    ce_secondary_groups: ['oinstall','dba11g']
+    ce_home: "/home/dba%{ce_carto}"
+  # TODO move to oracle module only here for test purpose
+  "ora11204":
+    ce_user: "ora11204"
+    ce_primary_group: 'oinstall'
+    ce_secondary_groups: ['oinstall','dba11g']
+    ce_home: "/home/ora11204"
+
+
+create_env_params:
+  oracle:
+    '11204':
+      user: 'ora11204'
+      primary_group: 'oinstall'
+      secondary_groups:
+        - 'oinstall'
+        - 'dba11g'
+    '12201':
+      user: 'oracle'
+      primary_group: 'oinstall'
+      secondary_groups:
+        - 'oinstall'
+        - 'dba11g'
+
+  # TODO startCARTO.erb and stopCARTO.erb for oracle user
